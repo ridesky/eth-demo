@@ -39,8 +39,7 @@
 
 <script>
 import Web3 from "web3"
-window.Web3 = Web3
-window.web3 = new Web3(window.ethereum)
+let web3 = new Web3(window.ethereum)
 // todo 此处填写合约地址
 const CONTRACT_ADDRESS = ""
 export default {
