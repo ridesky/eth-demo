@@ -9,7 +9,7 @@
 		<div class="keyspace" v-if="tabSwitch == 1">
 			<el-input v-model="keySpaceTab.input0" placeholder="input0"></el-input>
 			<el-input v-model="keySpaceTab.input1" placeholder="input1"></el-input>
-			<el-button @click="toAddSeed" type="primary">Keyspace 按钮</el-button>
+			<el-button @click="initKeySpace" type="primary">Keyspace 按钮</el-button>
 		</div>
 
 		<div class="set" v-if="tabSwitch == 2">
@@ -23,11 +23,16 @@
 				></el-input>
 				<el-input v-model="setTab.input2" placeholder="input2"></el-input>
 			</div>
-			<el-button type="primary">set 按钮</el-button>
+			<el-button type="primary" @click="savePrivateSecret">set 按钮</el-button>
 		</div>
 
 		<div class="get" v-if="tabSwitch == 3">
-			<el-input v-model="getTab.input0" placeholder="input0"></el-input>
+			<el-input
+				v-model="getTab.input0"
+				placeholder="input0"
+				@keyup.enter="queryPrivateSecret"
+			></el-input>
+			<div>{{ getTab.result }}</div>
 		</div>
 	</div>
 </template>
@@ -36,7 +41,8 @@
 import Web3 from "web3"
 window.Web3 = Web3
 window.web3 = new Web3(window.ethereum)
-const CONTRACT_ADDRESS = "" // todo 此处填写合约地址
+// todo 此处填写合约地址
+const CONTRACT_ADDRESS = ""
 export default {
 	name: "HelloWorld",
 	props: {
@@ -54,19 +60,42 @@ export default {
 			},
 			getTab: {
 				input0: "",
+				result: "",
 			},
 
 			tabSwitch: 1,
 		}
 	},
 	methods: {
-		async toAddSeed() {
+		async initKeySpace() {
 			const myAddress = (await web3.eth.getAccounts())[0]
 			const assetContract = new web3.eth.Contract(
 				require("../assets/abi.json"),
 				CONTRACT_ADDRESS
 			)
-			assetContract.methods.addSeed().send({ from: myAddress })
+			return await assetContract.methods
+				.initKeySpace(keySpaceTab.input0, keySpaceTab.input1)
+				.send({ from: myAddress })
+		},
+		async savePrivateSecret() {
+			const myAddress = (await web3.eth.getAccounts())[0]
+			const assetContract = new web3.eth.Contract(
+				require("../assets/abi.json"),
+				CONTRACT_ADDRESS
+			)
+			return await assetContract.methods
+				.savePrivateSecret(setTab.input0, setTab.input1, setTab.input2)
+				.send({ from: myAddress })
+		},
+		async queryPrivateSecret() {
+			const myAddress = (await web3.eth.getAccounts())[0]
+			const assetContract = new web3.eth.Contract(
+				require("../assets/abi.json"),
+				CONTRACT_ADDRESS
+			)
+			this.getTab.result = await assetContract.methods
+				.queryPrivateSecret(getTab.input0)
+				.send({ from: myAddress })
 		},
 	},
 }
