@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <Home msg="Eth demo Page"/>
+    <Home msg="Less Key, More Reliable."/>
   </div>
 </template>
 
