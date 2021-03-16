@@ -1,195 +1,156 @@
 [
   {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "setter",
-        "type": "address"
-      }
-    ],
-    "stateMutability": "nonpayable",
-    "type": "constructor"
+   "inputs": [
+    {
+     "internalType": "address",
+     "name": "globalID",
+     "type": "address"
+    },
+    {
+     "internalType": "address",
+     "name": "secret",
+     "type": "address"
+    }
+   ],
+   "name": "initKeySpace",
+   "outputs": [],
+   "stateMutability": "nonpayable",
+   "type": "function"
   },
   {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "seed",
-        "type": "address"
-      }
-    ],
-    "name": "addSeed",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
+   "inputs": [
+    {
+     "internalType": "address",
+     "name": "keyspace",
+     "type": "address"
+    },
+    {
+     "internalType": "address",
+     "name": "label",
+     "type": "address"
+    },
+    {
+     "internalType": "address",
+     "name": "content",
+     "type": "address"
+    }
+   ],
+   "name": "savePrivateSecret",
+   "outputs": [],
+   "stateMutability": "nonpayable",
+   "type": "function"
   },
   {
-    "inputs": [],
-    "name": "capacity",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
+   "inputs": [],
+   "stateMutability": "nonpayable",
+   "type": "constructor"
   },
   {
-    "inputs": [],
-    "name": "count",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
+   "inputs": [
+    {
+     "internalType": "address",
+     "name": "",
+     "type": "address"
+    }
+   ],
+   "name": "contents",
+   "outputs": [
+    {
+     "internalType": "bool",
+     "name": "",
+     "type": "bool"
+    }
+   ],
+   "stateMutability": "view",
+   "type": "function"
   },
   {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "index",
-        "type": "uint256"
-      }
-    ],
-    "name": "deleteSeed",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
+   "inputs": [
+    {
+     "internalType": "address",
+     "name": "",
+     "type": "address"
+    }
+   ],
+   "name": "ids",
+   "outputs": [
+    {
+     "internalType": "bool",
+     "name": "",
+     "type": "bool"
+    }
+   ],
+   "stateMutability": "view",
+   "type": "function"
   },
   {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "globalID",
-        "type": "address"
-      },
-      {
-        "internalType": "address",
-        "name": "secret",
-        "type": "address"
-      }
-    ],
-    "name": "initKeySpace",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
+   "inputs": [
+    {
+     "internalType": "address",
+     "name": "",
+     "type": "address"
+    }
+   ],
+   "name": "keyspaces",
+   "outputs": [
+    {
+     "internalType": "bool",
+     "name": "",
+     "type": "bool"
+    }
+   ],
+   "stateMutability": "view",
+   "type": "function"
   },
   {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "keyspace",
-        "type": "address"
-      }
-    ],
-    "name": "queryPrivateSecret",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
+   "inputs": [
+    {
+     "internalType": "address",
+     "name": "",
+     "type": "address"
+    }
+   ],
+   "name": "labels",
+   "outputs": [
+    {
+     "internalType": "bool",
+     "name": "",
+     "type": "bool"
+    }
+   ],
+   "stateMutability": "view",
+   "type": "function"
   },
   {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "keyspace",
-        "type": "address"
-      },
-      {
-        "internalType": "address",
-        "name": "label",
-        "type": "address"
-      },
-      {
-        "internalType": "address",
-        "name": "content",
-        "type": "address"
-      }
-    ],
-    "name": "savePrivateSecret",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
+   "inputs": [],
+   "name": "queryPrivateSecret",
+   "outputs": [
+    {
+     "internalType": "bool",
+     "name": "",
+     "type": "bool"
+    }
+   ],
+   "stateMutability": "pure",
+   "type": "function"
   },
   {
-    "inputs": [],
-    "name": "seedSetter",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "name": "seeds",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "cap",
-        "type": "uint256"
-      }
-    ],
-    "name": "updateCapacity",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "index",
-        "type": "uint256"
-      },
-      {
-        "internalType": "address",
-        "name": "seed",
-        "type": "address"
-      }
-    ],
-    "name": "updateSeed",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "setter",
-        "type": "address"
-      }
-    ],
-    "name": "updateSeedSetter",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
+   "inputs": [
+    {
+     "internalType": "address",
+     "name": "",
+     "type": "address"
+    }
+   ],
+   "name": "secrets",
+   "outputs": [
+    {
+     "internalType": "bool",
+     "name": "",
+     "type": "bool"
+    }
+   ],
+   "stateMutability": "view",
+   "type": "function"
   }
-]
+ ]

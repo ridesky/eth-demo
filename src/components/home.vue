@@ -1,5 +1,12 @@
 <template>
 	<div class="hello">
+		<el-button @click="connectWallet" v-show="!checksumAddress"
+			>连接钱包</el-button
+		>
+		<el-button disabled v-show="checksumAddress">{{
+			checksumAddress
+		}}</el-button>
+
 		<h1>{{ msg }}</h1>
 		<el-radio-group v-model="tabSwitch">
 			<el-radio-button label="1">KeySpaces</el-radio-button>
@@ -41,7 +48,7 @@
 import Web3 from "web3"
 let web3 = new Web3(window.ethereum)
 // todo 此处填写合约地址
-const CONTRACT_ADDRESS = ""
+const CONTRACT_ADDRESS = "0x3694FD2B16820016A4FB722ce1523FF742cC1016"
 export default {
 	name: "HelloWorld",
 	props: {
@@ -49,6 +56,8 @@ export default {
 	},
 	data() {
 		return {
+			checksumAddress: "",
+			connectAddress: "",
 			keySpaceTab: {
 				input0: "",
 				input1: "",
@@ -65,15 +74,33 @@ export default {
 			tabSwitch: 1,
 		}
 	},
+	mounted() {
+		this.init()
+	},
 	methods: {
+		async init() {
+			const accounts = await window.ethereum.request({ method: "eth_accounts" })
+			const address = accounts[0] || null
+			const checksumAddress = address && web3.utils.toChecksumAddress(address)
+			this.checksumAddress = checksumAddress
+			window.ethereum.on("accountsChanged", (accounts) => {
+				const address = accounts[0] || null
+				const checksumAddress = address && web3.utils.toChecksumAddress(address)
+				this.checksumAddress = checksumAddress
+			})
+		},
+		connectWallet() {
+			window.ethereum.request({ method: "eth_requestAccounts" })
+		},
 		async initKeySpace() {
 			const myAddress = (await web3.eth.getAccounts())[0]
+			console.log("myAddress is", myAddress)
 			const assetContract = new web3.eth.Contract(
 				require("../assets/abi.json"),
 				CONTRACT_ADDRESS
 			)
 			return await assetContract.methods
-				.initKeySpace(keySpaceTab.input0, keySpaceTab.input1)
+				.initKeySpace(this.keySpaceTab.input0, this.keySpaceTab.input1)
 				.send({ from: myAddress })
 		},
 		async savePrivateSecret() {
@@ -83,7 +110,11 @@ export default {
 				CONTRACT_ADDRESS
 			)
 			return await assetContract.methods
-				.savePrivateSecret(setTab.input0, setTab.input1, setTab.input2)
+				.savePrivateSecret(
+					this.setTab.input0,
+					this.setTab.input1,
+					this.setTab.input2
+				)
 				.send({ from: myAddress })
 		},
 		async queryPrivateSecret() {
@@ -93,7 +124,7 @@ export default {
 				CONTRACT_ADDRESS
 			)
 			this.getTab.result = await assetContract.methods
-				.queryPrivateSecret(getTab.input0)
+				.queryPrivateSecret(this.getTab.input0)
 				.send({ from: myAddress })
 		},
 	},
