@@ -3,40 +3,38 @@
 		<el-button @click="connectWallet" v-show="!checksumAddress"
 			>连接钱包</el-button
 		>
-		<el-button disabled v-show="checksumAddress">{{
-			checksumAddress
-		}}</el-button>
+		<el-button disabled v-show="checksumAddress">钱包已连接</el-button>
 
 		<h1>{{ msg }}</h1>
 		<el-radio-group v-model="tabSwitch">
-			<el-radio-button label="1">KeySpaces</el-radio-button>
+			<el-radio-button label="1">KeySpace</el-radio-button>
 			<el-radio-button label="2">存储</el-radio-button>
 			<el-radio-button label="3">获取</el-radio-button>
 		</el-radio-group>
 		<div class="keyspace" v-if="tabSwitch == 1">
-			<el-input v-model="keySpaceTab.input0" placeholder="input0"></el-input>
-			<el-input v-model="keySpaceTab.input1" placeholder="input1"></el-input>
-			<el-button @click="initKeySpace" type="primary">Keyspace 按钮</el-button>
+			<el-input v-model="keySpaceTab.input0" placeholder="Keyspace:  请尽量使用全网唯一的内容，例如：您的邮箱、身份证ID或NFT作品地址等."></el-input>
+			<el-input v-model="keySpaceTab.input1" placeholder="Password:  对称密钥盐值，请务必牢记于心."></el-input>
+			<el-button @click="initKeySpace" type="primary">Keyspace 初始化</el-button>
 		</div>
 
 		<div class="set" v-if="tabSwitch == 2">
-			<el-input v-model="setTab.input0" placeholder="input0"></el-input>
+			<el-input v-model="setTab.input0" placeholder="Keyspace:  请输入初始化时使用的密钥空间值"></el-input>
 			<div class="flex">
 				<el-input
 					v-model="setTab.input1"
 					class="mini-input"
 					style="margin-right: 5px"
-					placeholder="input1"
+					placeholder="私钥标签"
 				></el-input>
-				<el-input v-model="setTab.input2" placeholder="input2"></el-input>
+				<el-input v-model="setTab.input2" placeholder="私钥内容"></el-input>
 			</div>
-			<el-button type="primary" @click="savePrivateSecret">set 按钮</el-button>
+			<el-button type="primary" @click="savePrivateSecret">存储</el-button>
 		</div>
 
 		<div class="get" v-if="tabSwitch == 3">
 			<el-input
 				v-model="getTab.input0"
-				placeholder="input0"
+				placeholder="Keyspace: 请输入初始化时使用的密钥空间值"
 				@keyup.enter="queryPrivateSecret"
 			></el-input>
 			<div>{{ getTab.result }}</div>
@@ -149,7 +147,7 @@ export default {
 		margin-bottom: 10px;
 	}
 	.mini-input {
-		width: 100px;
+		width: 110px;
 	}
 }
 h3 {
