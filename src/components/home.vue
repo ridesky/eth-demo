@@ -1,6 +1,6 @@
 <template>
 	<div class="hello">
-		<el-button @click="connectWallet" v-show="!checksumAddress"
+		<el-button class="connect" @click="connectWallet" v-show="!checksumAddress"
 			>连接钱包</el-button
 		>
 		<el-button disabled v-show="checksumAddress">钱包已连接</el-button>
@@ -15,9 +15,12 @@
 		<div class="keyspace" v-if="tabSwitch == 1">
 			<el-input
 				v-model="keySpaceTab.input0"
+				type="text"
+				minlength="5"
 				placeholder="Keyspace:  请尽量使用全网唯一的内容，例如：您的邮箱、身份证ID或NFT作品地址等."
 			></el-input>
 			<el-input
+				type="password"
 				v-model="keySpaceTab.input1"
 				placeholder="Password:  对称密钥盐值，请务必牢记于心."
 			></el-input>
@@ -28,7 +31,7 @@
 				></el-input>
 				<el-button type="primary" @click="initKeySpace">确认</el-button>
 			</el-dialog>
-			<el-button @click="keySpaceTab.confirm = true" type="primary"
+			<el-button @click="beforeInitKeySpace" type="primary"
 				>Keyspace 初始化</el-button
 			>
 		</div>
@@ -56,7 +59,9 @@
 				></el-input>
 				<el-input v-model="setTab.input2" placeholder="私钥内容"></el-input>
 			</div>
-			<el-button type="primary" @click="setTab.confirm = true">存储</el-button>
+			<el-button type="primary" @click="beforeSavePrivateSecret"
+				>存储</el-button
+			>
 		</div>
 
 		<div class="get" v-if="tabSwitch == 3">
@@ -95,6 +100,7 @@ export default {
 				confirm: false,
 				input0: "",
 				input1: "",
+				input2: "",
 				password: "",
 			},
 			getTab: {
@@ -123,6 +129,14 @@ export default {
 		connectWallet() {
 			window.ethereum.request({ method: "eth_requestAccounts" })
 		},
+		beforeInitKeySpace() {
+			if (!this.keySpaceTab.input0.trim() || !this.keySpaceTab.input1.trim()) {
+				this.$message.error("请在将 Keyspace 与 Password 输入框填写完整")
+				return
+			} else {
+				this.keySpaceTab.confirm = true
+			}
+		},
 		async initKeySpace() {
 			if (this.keySpaceTab.input1Confirm != this.keySpaceTab.input1) {
 				this.$message({
@@ -141,8 +155,20 @@ export default {
 				.initKeySpace(this.keySpaceTab.input0, this.keySpaceTab.input1)
 				.send({ from: myAddress })
 		},
+		beforeSavePrivateSecret() {
+			if (
+				!this.setTab.input0.trim() ||
+				!this.setTab.input1.trim() ||
+				!this.setTab.input2.trim()
+			) {
+				this.$message.error("请将输入框填写完整")
+				return
+			} else {
+				this.setTab.confirm = true
+			}
+		},
 		async savePrivateSecret() {
-			this.passwordStore = this.setTab.password;
+			this.passwordStore = this.setTab.password
 			const myAddress = (await web3.eth.getAccounts())[0]
 			const assetContract = new web3.eth.Contract(
 				require("../assets/abi.json"),
@@ -178,6 +204,11 @@ export default {
 .hello {
 	width: 600px;
 	margin: 0 auto;
+	.connect {
+		position: absolute;
+		top: 10px;
+		right: 10px;
+	}
 	.tab-container {
 		width: 100%;
 	}
